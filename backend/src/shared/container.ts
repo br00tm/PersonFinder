@@ -109,4 +109,8 @@ export class Container {
       this._personRepository
     );
 
-    this._searchController
+    this._searchController = new SearchController(
+      this._searchPersonUseCase
+    );
+  }
+}

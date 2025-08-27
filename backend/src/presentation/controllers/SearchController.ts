@@ -130,4 +130,9 @@ export class SearchController {
     // Gauges
     for (const [name, value] of Object.entries(metrics.gauges)) {
       output += `# TYPE ${name} gauge\n`;
- 
+      output += `${name} ${value}\n`;
+    }
+    
+    return output;
+  }
+}
