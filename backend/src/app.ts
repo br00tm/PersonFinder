@@ -115,7 +115,7 @@ export function createApp(): express.Application {
   });
 
   // Middleware para rotas não encontradas
-  app.use('*', (req, res) => {
+  app.use(/.*/, (req, res) => {
     MetricsCollector.incrementCounter('not_found_requests');
     
     res.status(404).json({

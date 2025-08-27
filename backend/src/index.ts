@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import { createApp } from './app.js';
 import { logger } from './shared/logger.js';
-import fs from 'fs';
-import path from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
 
 /**
  * Ponto de entrada da aplicação
@@ -41,7 +41,7 @@ async function startServer() {
     const shutdown = (signal: string) => {
       logger.info('Shutdown signal received', { signal });
       
-      server.close((err) => {
+      server.close((err: any) => {
         if (err) {
           logger.error('Error during server shutdown', { error: err.message });
           process.exit(1);

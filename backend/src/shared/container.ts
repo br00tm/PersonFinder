@@ -7,6 +7,7 @@ import { SearchController } from '../presentation/controllers/SearchController.j
 import { ClearbitProvider } from '../infrastructure/providers/ClearbitProvider.js';
 import { HunterProvider } from '../infrastructure/providers/HunterProvider.js';
 import { MockProvider } from '../infrastructure/providers/MockProvider.js';
+import { BasicProvider } from '../infrastructure/providers/BasicProvider.js';
 import { InMemoryPersonRepository } from '../infrastructure/repositories/InMemoryPersonRepository.js';
 
 /**
@@ -55,19 +56,33 @@ export class Container {
   private createProviders(): ExternalPersonSearchProvider[] {
     const providers: ExternalPersonSearchProvider[] = [];
 
-    // Sempre adiciona o provider mock para fallback
-    providers.push(new MockProvider());
-
     // Adiciona Clearbit se tiver API key
     const clearbitApiKey = process.env.CLEARBIT_API_KEY;
-    if (clearbitApiKey) {
+    if (clearbitApiKey && clearbitApiKey.trim() !== '') {
+      console.log('✅ Clearbit API configurada');
       providers.push(new ClearbitProvider(clearbitApiKey));
+    } else {
+      console.log('⚠️  Clearbit API não configurada (defina CLEARBIT_API_KEY)');
     }
 
     // Adiciona Hunter se tiver API key
     const hunterApiKey = process.env.HUNTER_API_KEY;
-    if (hunterApiKey) {
+    if (hunterApiKey && hunterApiKey.trim() !== '') {
+      console.log('✅ Hunter API configurada');
       providers.push(new HunterProvider(hunterApiKey));
+    } else {
+      console.log('⚠️  Hunter API não configurada (defina HUNTER_API_KEY)');
+    }
+
+    // Sempre adiciona o BasicProvider que funciona sem API keys
+    console.log('✅ BasicProvider configurado (funciona sem API keys)');
+    providers.push(new BasicProvider());
+
+    // Se nenhum provedor real estiver configurado, informa como melhorar
+    if (providers.length === 1) { // Apenas BasicProvider
+      console.log('💡 Para resultados mais precisos, configure APIs:');
+      console.log('   - CLEARBIT_API_KEY (https://clearbit.com/)');
+      console.log('   - HUNTER_API_KEY (https://hunter.io/)');
     }
 
     return providers;

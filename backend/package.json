@@ -5,11 +5,17 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "dev": "tsx watch src/index.ts",
+    "dev:simple": "tsx watch src/index-simple.ts",
     "start": "node dist/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test-backend.js",
+    "test:manual": "echo \"Abra outro terminal e execute: npm test\""
   },
-  "keywords": ["person-finder", "osint", "search"],
+  "keywords": [
+    "person-finder",
+    "osint",
+    "search"
+  ],
   "author": "",
   "license": "ISC",
   "description": "Backend para plataforma de busca de informações pessoais",
@@ -27,6 +33,7 @@
     "@types/node": "^24.3.0",
     "nodemon": "^3.1.10",
     "ts-node-dev": "^2.0.0",
+    "tsx": "^4.20.5",
     "typescript": "^5.9.2"
   }
 }
